@@ -2,15 +2,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "../lib/auth.module";
 import { Session } from "../lib/session.entity";
-import { Entity, PrimaryGeneratedColumn } from "typeorm";
-import { BaseUser } from "../lib/base-user";
 import { createHmac } from "node:crypto";
-
-@Entity()
-export class User extends BaseUser {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
-}
+import { User } from "../lib/user.entity";
 
 export async function initializeTestEnvironment(): Promise<TestingModule> {
   const moduleRef = await Test.createTestingModule({
@@ -22,6 +15,7 @@ export async function initializeTestEnvironment(): Promise<TestingModule> {
         synchronize: true,
       }),
       AuthModule.register({
+        prefix: "/auth",
         cookie: { name: "sid", secret: "secret", secure: false },
         sessionMaximumAge: 60 * 60 * 24,
         userEntity: User,

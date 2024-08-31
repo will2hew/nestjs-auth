@@ -1,18 +1,15 @@
 import { DataSource, Repository } from "typeorm";
 import { BaseUser } from "../lib/base-user";
 import { initializeTestEnvironment, userFields } from "./test-utils";
-import { AuthConfig } from "../lib/auth-config.interface";
-import { AUTH_CONFIG_TOKEN } from "../lib/auth.constants";
+import { User } from "../lib/user.entity";
 
 describe(BaseUser.name, () => {
   let repository: Repository<BaseUser>;
-  let authConfig: AuthConfig;
 
   beforeAll(async () => {
     const moduleRef = await initializeTestEnvironment();
 
-    authConfig = moduleRef.get(AUTH_CONFIG_TOKEN);
-    repository = moduleRef.get(DataSource).getRepository(authConfig.userEntity);
+    repository = moduleRef.get(DataSource).getRepository(User);
   });
 
   afterEach(async () => {

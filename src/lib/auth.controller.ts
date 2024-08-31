@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, Req, Res } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Inject,
+  Post,
+  Req,
+  Res,
+} from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { SessionStore } from "./session.store";
 import * as cookie from "cookie";
@@ -13,7 +21,9 @@ export class AuthController {
     @Inject(AUTH_CONFIG_TOKEN) private readonly config: AuthConfig,
     private readonly authService: AuthService,
     private readonly sessionStore: SessionStore
-  ) {}
+  ) {
+    Reflect.defineMetadata("path", this.config.prefix, AuthController);
+  }
 
   @Post("sign-in")
   async signIn(
@@ -28,6 +38,7 @@ export class AuthController {
   }
 
   @Post("sign-out")
+  @HttpCode(204)
   async signOut(
     @Req() req: any,
     @Res({ passthrough: true }) res: any

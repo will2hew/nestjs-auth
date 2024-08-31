@@ -31,6 +31,11 @@ export abstract class BaseUser extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
+  async verifyEmail(): Promise<this> {
+    this.emailVerifiedAt = new Date();
+    return this.save();
+  }
+
   @BeforeInsert()
   @BeforeUpdate()
   private async hashPassword() {

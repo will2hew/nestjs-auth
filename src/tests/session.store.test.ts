@@ -1,8 +1,9 @@
 import { DataSource } from "typeorm";
 import { BaseUser } from "../lib/base-user";
 import { SessionStore } from "../lib/session.store";
-import { initializeTestEnvironment, User, userFields } from "./test-utils";
+import { initializeTestEnvironment, userFields } from "./test-utils";
 import { Session } from "../lib/session.entity";
+import { User } from "../lib/user.entity";
 
 describe(SessionStore.name, () => {
   let sessionStore: SessionStore;
