@@ -1,19 +1,21 @@
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { AUTH_CONFIG_TOKEN } from "./auth.constants";
 import { AuthConfig } from "./auth-config.interface";
-import { DataSource } from "typeorm";
+import { EntityManager } from "typeorm";
 import { BaseUser } from "./base-user";
 import * as argon2 from "argon2";
+import { InjectEntityManager } from "@nestjs/typeorm";
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(AUTH_CONFIG_TOKEN) private readonly config: AuthConfig,
-    private readonly dataSource: DataSource
+    @InjectEntityManager()
+    private readonly entityManager: EntityManager,
   ) {}
 
   async signIn(email: string, password: string): Promise<BaseUser> {
-    const repository = this.dataSource.getRepository(this.config.userEntity);
+    const repository = this.entityManager.getRepository(this.config.userEntity);
 
     const user = await repository
       .createQueryBuilder("user")

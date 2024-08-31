@@ -4,7 +4,8 @@ import { AuthConfig } from "./auth-config.interface";
 import { createHmac } from "node:crypto";
 import * as cookie from "cookie";
 import { SessionStore } from "./session.store";
-import type { DataSource } from "typeorm";
+import type { EntityManager } from "typeorm";
+import { InjectEntityManager } from "@nestjs/typeorm";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -12,7 +13,8 @@ export class AuthMiddleware implements NestMiddleware {
     @Inject(AUTH_CONFIG_TOKEN)
     private readonly config: AuthConfig,
     private readonly sessionStore: SessionStore,
-    private readonly dataSource: DataSource,
+    @InjectEntityManager()
+    private readonly entityManager: EntityManager,
   ) {}
 
   async use(req: any, _res: any, next: () => void): Promise<void> {
@@ -43,7 +45,7 @@ export class AuthMiddleware implements NestMiddleware {
     if (session !== null) {
       req["session"] = session;
 
-      req["user"] = await this.dataSource
+      req["user"] = await this.entityManager
         .getRepository(this.config.userEntity)
         .findOne({ where: { id: session.userId } });
     }
