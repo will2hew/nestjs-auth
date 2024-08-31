@@ -56,7 +56,7 @@ user.password = "password";
 user.firstName = "John";
 user.lastName = "Smith";
 
-await user.save();
+await this.userRepository.save(user);
 ```
 
 Sign in as the user
