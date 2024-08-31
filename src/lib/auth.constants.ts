@@ -1,0 +1,1 @@
+export const AUTH_CONFIG_TOKEN = 'AUTH_CONFIG_TOKEN';
