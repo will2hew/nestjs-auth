@@ -42,6 +42,6 @@
   },
   "license": "MIT",
   "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }
