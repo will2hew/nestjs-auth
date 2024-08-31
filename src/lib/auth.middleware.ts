@@ -4,7 +4,7 @@ import { AuthConfig } from "./auth-config.interface";
 import { createHmac } from "node:crypto";
 import * as cookie from "cookie";
 import { SessionStore } from "./session.store";
-import { DataSource } from "typeorm";
+import type { DataSource } from "typeorm";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -12,7 +12,7 @@ export class AuthMiddleware implements NestMiddleware {
     @Inject(AUTH_CONFIG_TOKEN)
     private readonly config: AuthConfig,
     private readonly sessionStore: SessionStore,
-    private readonly dataSource: DataSource
+    private readonly dataSource: DataSource,
   ) {}
 
   async use(req: any, _res: any, next: () => void): Promise<void> {
